@@ -1,8 +1,9 @@
 <template>
   <div class="card">
     <h4>username : {{user.username}}</h4>
-    <h4>username : {{user.username}}</h4>
-    <h5 @click="follow(user._id)">{{text}}</h5>
+    <h4>name : {{user.name}}</h4>
+    <h5 @click="follow(user._id)" v-if="!alreadyFollowed">{{text}}</h5>
+    <h5 v-else>{{text}}</h5>
   </div>
 </template>
 
@@ -20,6 +21,9 @@ export default {
   computed: {
     userId () {
       return this.$store.state.userId
+    },
+    userData () {
+      return this.$store.state.user
     }
   },
 
@@ -42,6 +46,16 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    }
+  },
+
+  mounted () {
+    console.log(this.userData.following)
+    for (let i = 0; i < this.userData.following.length; i++) {
+      if (this.userData.following[i]._id === this.user._id) {
+        this.alreadyFollowed = true
+        this.text = 'followed'
+      }
     }
   }
 }
