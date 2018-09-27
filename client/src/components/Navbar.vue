@@ -53,8 +53,9 @@ export default {
     },
 
     goToProfile () {
-      console.log(this.userData.tweets)
-      this.$store.dispatch('getTweet', this.userData.tweets)
+      // console.log(this.userData.tweets)
+      // this.$store.dispatch('getTweet', this.userData.tweets)
+      this.$router.push('/profile')
     }
   },
 

@@ -2,11 +2,12 @@
   <div id="singletweet">
     <h2>{{tweet.user.name}}</h2>
     <p>{{tweet.tweet}}</p>
-    <h3 id="delete" v-if="tweet.user._id===userId">Delete</h3>
+    <h3 id="delete" v-if="tweet.user._id===userId" @click="removeTweet(tweet._id)">Delete</h3>
   </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: `SingleTweet`,
   props: ['tweet'],
@@ -16,6 +17,23 @@ export default {
     },
     userId () {
       return this.$store.state.userId
+    }
+  },
+  methods: {
+    removeTweet (id) {
+      axios({
+        method: 'DELETE',
+        url: `http://localhost:3000/tweets/${id}`,
+        headers: {
+          token: localStorage.getItem('token')
+        }
+      })
+        .then(response => {
+          this.$store.dispatch('getNewTweet')
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   }
 }

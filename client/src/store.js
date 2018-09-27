@@ -127,7 +127,6 @@ export default new Vuex.Store({
     },
 
     getNewTweet (context) {
-      console.log('hahaha')
       axios({
         method: 'GET',
         url: `${baseUrl}/tweets`
