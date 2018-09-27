@@ -86,7 +86,8 @@ module.exports = {
   },
 
   findAll : function(req,res){
-    Tweet.find()
+    Tweet.find({})
+    .sort({createdAt: 'descending'})
     .populate('user')
     .then(data=>{
         res.status( 200 ).json({

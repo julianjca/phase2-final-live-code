@@ -29,8 +29,8 @@ module.exports = {
   login : function(req,res){
     User.findOne({
       $or : [
-        {email : req.body.email},
-        {username : req.body.username}
+        {email : req.body.user},
+        {username : req.body.user}
       ]
     })
     .then(user=>{

@@ -1,18 +1,48 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="containerHomeItem">
+      <div>hahahha</div>
+      <div class="middle">
+        <create-tweet v-if="isLogin"></create-tweet>
+        <show-tweet></show-tweet>
+      </div>
+      <div>hahaha</div>
+    </div>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import CreateTweet from '@/components/CreateTweet.vue'
+import ShowTweet from '@/components/ShowTweet.vue'
 
 export default {
   name: 'home',
   components: {
-    HelloWorld
+    CreateTweet,
+    ShowTweet
+  },
+
+  created () {
+    this.$store.dispatch('getTweet')
+  },
+
+  computed: {
+    isLogin () {
+      return this.$store.state.isLogin
+    }
   }
 }
 </script>
+
+<style scoped>
+.containerHomeItem {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+}
+
+.middle {
+  margin-left: auto;
+  margin-right: auto;
+}
+</style>

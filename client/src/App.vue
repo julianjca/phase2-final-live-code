@@ -1,12 +1,21 @@
 <template>
   <div id="app">
-    <div class="navbar">
-      <h1>Tuiter</h1>
-      <h2>Login</h2>
-    </div>
+    <Navbar></Navbar>
     <router-view/>
   </div>
 </template>
+
+<script>
+import Navbar from '@/components/Navbar.vue'
+export default {
+  components: {
+    Navbar
+  },
+  created () {
+    this.$store.dispatch('checkToken')
+  }
+}
+</script>
 
 <style lang="scss">
 #app {
