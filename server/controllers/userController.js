@@ -164,5 +164,15 @@ module.exports = {
         });
       }
     });
+  },
+
+  getRandomData : function(req,res){
+    User.aggregate([{$sample: {size: 3}}])
+    .then(response=>{
+      res.send(response)
+    })
+    .catch(err=>{
+      res.send(err)
+    })
   }
 };

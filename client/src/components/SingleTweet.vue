@@ -11,10 +11,10 @@ export default {
   name: `SingleTweet`,
   props: ['tweet'],
   computed: {
-    user() {
+    user () {
       return this.$store.state.user._id
     },
-    userId() {
+    userId () {
       return this.$store.state.userId
     }
   }

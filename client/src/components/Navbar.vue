@@ -53,7 +53,8 @@ export default {
     },
 
     goToProfile () {
-      this.$store.dispatch('getTweet', this.user.tweets)
+      console.log(this.userData.tweets)
+      this.$store.dispatch('getTweet', this.userData.tweets)
     }
   },
 

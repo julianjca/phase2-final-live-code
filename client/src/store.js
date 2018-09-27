@@ -28,6 +28,8 @@ export default new Vuex.Store({
 
     logout (state) {
       state.isLogin = false
+      state.userId = ''
+      state.user = {}
     },
 
     changeTweets (state, payload) {
@@ -44,7 +46,7 @@ export default new Vuex.Store({
   },
 
   actions: {
-    sendLogin (context, obj) {
+    sendLogin ({ commit, dispatch }, obj) {
       axios({
         method: 'POST',
         url: `${baseUrl}/users/login`,
@@ -52,26 +54,19 @@ export default new Vuex.Store({
       })
         .then(response => {
           localStorage.setItem('token', response.data.token)
-          context.commit('changeLoginStatus')
-          const obj = {
-            username: response.data.data.username,
-            name: response.data.data.name,
-            following: response.data.data.following,
-            followers: response.data.data.followers,
-            tweets: response.data.data.tweets
-          }
+          commit('changeLoginStatus')
+
           setTimeout(() => {
-            context.commit('getUserId', response.data.data._id)
-            context.commit('getUserData', obj)
-          }, 3000)
+            dispatch('checkToken')
+          }, 500)
         })
         .catch(err => {
           console.log(err)
-          context.commit('changeError')
+          commit('changeError')
         })
     },
 
-    checkToken (context, obj) {
+    checkToken (context) {
       const token = localStorage.getItem('token')
       axios({
         method: 'GET',
@@ -81,7 +76,6 @@ export default new Vuex.Store({
         }
       })
         .then(response => {
-          console.log(response)
           context.commit('changeLoginStatus')
           const obj = {
             username: response.data.data.username,
