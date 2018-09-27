@@ -11,7 +11,7 @@ module.exports = {
     Tweet.create(data)
     .then(data=>{
       User.updateOne({
-        _id : req.body.user
+        _id : req.userData.id
       },{$push : {tweets:data._id}})
       .then(response=>{
         res.status(200).json({

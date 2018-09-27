@@ -1,7 +1,9 @@
 <template>
   <div class="home">
     <div class="containerHomeItem">
-      <div>hahahha</div>
+      <div>
+        <user-card></user-card>
+      </div>
       <div class="middle">
         <create-tweet v-if="isLogin"></create-tweet>
         <show-tweet></show-tweet>
@@ -15,12 +17,14 @@
 // @ is an alias to /src
 import CreateTweet from '@/components/CreateTweet.vue'
 import ShowTweet from '@/components/ShowTweet.vue'
+import UserCard from '@/components/UserCard.vue'
 
 export default {
   name: 'home',
   components: {
     CreateTweet,
-    ShowTweet
+    ShowTweet,
+    UserCard
   },
 
   created () {

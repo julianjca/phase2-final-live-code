@@ -10,7 +10,8 @@ export default new Vuex.Store({
     isLogin: false,
     err: '',
     tweets: [],
-    userId: ''
+    userId: '',
+    user: {}
   },
 
   mutations: {
@@ -35,6 +36,10 @@ export default new Vuex.Store({
 
     getUserId (state, payload) {
       state.userId = payload
+    },
+
+    getUserData (state, payload) {
+      state.user = payload
     }
   },
 
@@ -65,8 +70,17 @@ export default new Vuex.Store({
         }
       })
         .then(response => {
+          console.log(response)
           context.commit('changeLoginStatus')
+          const obj = {
+            username: response.data.data.username,
+            name: response.data.data.name,
+            following: response.data.data.following,
+            followers: response.data.data.followers,
+            tweets: response.data.data.tweets
+          }
           context.commit('getUserId', response.data.data._id)
+          context.commit('getUserData', obj)
         })
         .catch(err => {
           console.log(err)
@@ -118,6 +132,7 @@ export default new Vuex.Store({
           console.log(response)
           setTimeout(() => {
             dispatch('getNewTweet')
+            dispatch('checkToken')
           }, 1000)
         })
         .catch(err => {
