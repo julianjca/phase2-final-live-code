@@ -9,7 +9,9 @@
         <create-tweet v-if="isLogin"></create-tweet>
         <show-tweet></show-tweet>
       </div>
-      <div v-if="isLogin">hahaha</div>
+      <div v-if="isLogin">
+        <random-user></random-user>
+      </div>
     </div>
   </div>
 </template>
@@ -20,6 +22,7 @@ import CreateTweet from '@/components/CreateTweet.vue'
 import ShowTweet from '@/components/ShowTweet.vue'
 import UserCard from '@/components/UserCard.vue'
 import SearchTweet from '@/components/SearchTweet.vue'
+import RandomUser from '@/components/RandomUser.vue'
 
 export default {
   name: 'home',
@@ -27,7 +30,8 @@ export default {
     CreateTweet,
     ShowTweet,
     UserCard,
-    SearchTweet
+    SearchTweet,
+    RandomUser
   },
 
   created () {

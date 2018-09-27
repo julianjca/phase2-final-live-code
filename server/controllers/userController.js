@@ -167,12 +167,45 @@ module.exports = {
   },
 
   getRandomData : function(req,res){
-    User.aggregate([{$sample: {size: 3}}])
+    User.aggregate([{$sample: {size: 4}}])
     .then(response=>{
-      res.send(response)
+      res.status(200).json({response})
     })
     .catch(err=>{
-      res.send(err)
+      res.status(500).json({
+        msg : "failed updating user",
+        err : err
+      });
+    })
+  },
+
+  follow : function(req,res){
+    User.findOneAndUpdate({
+      _id : req.body.userId
+    },{
+      $push : {following:req.body.followId}
+    }).
+    then(response=>{
+      User.findOneAndUpdate({
+        _id : req.body.followId
+      },{
+        $push : {followers:req.body.userId}
+      })
+      .then(resp=>{
+          res.status(200).json({resp})
+      })
+      .catch(err=>{
+        res.status(500).json({
+          msg : "failed updating user",
+          err : err
+        });
+      })
+    })
+    .catch(err=>{
+      res.status(500).json({
+        msg : "failed updating user",
+        err : err
+      });
     })
   }
 };

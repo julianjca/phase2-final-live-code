@@ -11,7 +11,8 @@ export default new Vuex.Store({
     err: '',
     tweets: [],
     userId: '',
-    user: {}
+    user: {},
+    randomUser: []
   },
 
   mutations: {
@@ -42,6 +43,10 @@ export default new Vuex.Store({
 
     getUserData (state, payload) {
       state.user = payload
+    },
+
+    changeRandomUser (state, payload) {
+      state.randomUser = payload
     }
   },
 
@@ -86,6 +91,23 @@ export default new Vuex.Store({
           }
           context.commit('getUserId', response.data.data._id)
           context.commit('getUserData', obj)
+          axios({
+            method: 'GET',
+            url: `${baseUrl}/users/random`
+          })
+            .then(resp => {
+              console.log(resp)
+              const result = []
+              for (let i = 0; i < resp.data.response.length; i++) {
+                if (resp.data.response[i]._id !== response.data.data._id) {
+                  result.push(resp.data.response[i])
+                }
+              }
+              context.commit('changeRandomUser', result)
+            })
+            .catch(err => {
+              console.log(err)
+            })
         })
         .catch(err => {
           console.log(err)
@@ -145,6 +167,10 @@ export default new Vuex.Store({
 
     showSearchResult (context, payload) {
       context.commit('changeTweets', payload)
+    },
+
+    getRandomUser ({ commit, dispatch }) {
+
     }
   }
 })
