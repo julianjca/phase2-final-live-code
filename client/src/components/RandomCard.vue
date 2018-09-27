@@ -12,7 +12,8 @@ export default {
   props: ['user'],
   data () {
     return {
-      text: 'Follow'
+      text: 'Follow',
+      alreadyFollowed: false
     }
   },
   name: 'RandomCard',
@@ -24,20 +25,19 @@ export default {
 
   methods: {
     follow (id) {
+      console.log(id)
       let self = this
       axios({
-        method: 'PUT',
+        method: 'POST',
         data: {
           followId: id,
           userId: this.userId
-        },
-        headers: {
-          token: localStorage.getItem('token')
         },
         url: `http://localhost:3000/users/follow`
       })
         .then(response => {
           self.text = 'followed'
+          self.$store.dispatch('checkToken')
         })
         .catch(err => {
           console.log(err)

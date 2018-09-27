@@ -73,7 +73,14 @@ module.exports = {
 
   findAll : function(req,res){
     User.find({})
-    .populate('tweets')
+    .populate({
+      path :'tweets',
+      model :'Tweet',
+      populate :{
+        path : 'user',
+        model : 'User'
+      }
+    })
     .exec()
     .then(data=>{
       res.status( 200 ).json({
@@ -152,6 +159,9 @@ module.exports = {
         User.findOne({
           email : decoded.email
         })
+        .populate('following')
+        .populate('followers')
+        .populate('tweets')
         .then(data=>{
           res.status(200).json({
             data
@@ -180,6 +190,7 @@ module.exports = {
   },
 
   follow : function(req,res){
+    console.log('masukkk')
     User.findOneAndUpdate({
       _id : req.body.userId
     },{

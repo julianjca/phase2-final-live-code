@@ -1,16 +1,17 @@
 <template>
   <div class="home">
     <div class="containerHomeItem">
-      <div v-if="isLogin">
-        <user-card ></user-card>
-        <search-tweet></search-tweet>
+      <div >
+        <user-card v-if="isLogin"></user-card>
+        <search-tweet v-if="isLogin"></search-tweet>
+        <recently-followed v-if="isLogin"></recently-followed>
       </div>
       <div class="middle">
         <create-tweet v-if="isLogin"></create-tweet>
         <show-tweet></show-tweet>
       </div>
-      <div v-if="isLogin">
-        <random-user></random-user>
+      <div>
+        <random-user v-if="isLogin"></random-user>
       </div>
     </div>
   </div>
@@ -23,6 +24,7 @@ import ShowTweet from '@/components/ShowTweet.vue'
 import UserCard from '@/components/UserCard.vue'
 import SearchTweet from '@/components/SearchTweet.vue'
 import RandomUser from '@/components/RandomUser.vue'
+import RecentlyFollowed from '@/components/RecentlyFollowed.vue'
 
 export default {
   name: 'home',
@@ -31,7 +33,8 @@ export default {
     ShowTweet,
     UserCard,
     SearchTweet,
-    RandomUser
+    RandomUser,
+    RecentlyFollowed
   },
 
   created () {
@@ -55,5 +58,6 @@ export default {
 .middle {
   margin-left: auto;
   margin-right: auto;
+  width: 100%;
 }
 </style>

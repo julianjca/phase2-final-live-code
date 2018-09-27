@@ -115,10 +115,11 @@ export default new Vuex.Store({
         })
     },
 
-    sendLogout (context) {
+    sendLogout ({ commit, dispatch }) {
       console.log('masuk')
       localStorage.removeItem('token')
-      context.commit('logout')
+      commit('logout')
+      dispatch('getNewTweet')
     },
 
     getTweet (context, payload) {
@@ -167,10 +168,6 @@ export default new Vuex.Store({
 
     showSearchResult (context, payload) {
       context.commit('changeTweets', payload)
-    },
-
-    getRandomUser ({ commit, dispatch }) {
-
     }
   }
 })
