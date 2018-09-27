@@ -23,7 +23,7 @@ export default new Vuex.Store({
       state.err = 'username/password is wrong'
       setTimeout(() => {
         state.err = ''
-      }, 1500)
+      }, 500)
     },
 
     logout (state) {
@@ -53,6 +53,17 @@ export default new Vuex.Store({
         .then(response => {
           localStorage.setItem('token', response.data.token)
           context.commit('changeLoginStatus')
+          const obj = {
+            username: response.data.data.username,
+            name: response.data.data.name,
+            following: response.data.data.following,
+            followers: response.data.data.followers,
+            tweets: response.data.data.tweets
+          }
+          setTimeout(() => {
+            context.commit('getUserId', response.data.data._id)
+            context.commit('getUserData', obj)
+          }, 3000)
         })
         .catch(err => {
           console.log(err)
@@ -95,8 +106,6 @@ export default new Vuex.Store({
     },
 
     getTweet (context, payload) {
-      console.log(payload)
-      console.log('masuk')
       context.commit('changeTweets', payload)
     },
 
@@ -138,6 +147,10 @@ export default new Vuex.Store({
         .catch(err => {
           console.log(err)
         })
+    },
+
+    showSearchResult (context, payload) {
+      context.commit('changeTweets', payload)
     }
   }
 })

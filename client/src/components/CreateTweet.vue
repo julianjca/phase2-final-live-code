@@ -24,9 +24,9 @@ export default {
     createTweet () {
       this.$store.dispatch('createTweet', this.text)
       this.text = ''
-      setTimeout(() => {
-        this.$store.dispatch('getNewTweet')
-      }, 3000)
+      // setTimeout(() => {
+      //   this.$store.dispatch('getNewTweet')
+      // }, 3000)
     }
   }
 }

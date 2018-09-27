@@ -123,6 +123,7 @@ module.exports = {
 
       search : function(req,res){
         Tweet.find({tweet : { $regex: req.body.keyword, $options: "i" }})
+        .populate('user')
        .exec(function(err, docs) {
         res.send(docs)
        });

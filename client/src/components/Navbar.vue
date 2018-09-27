@@ -1,23 +1,26 @@
 <template>
   <div class="navbar">
-      <h1>Tuiter</h1>
+      <h1 @click="goToHome">Tuiter</h1>
       <div id="logininput">
         <input type="text" placeholder="username/email" v-model="user" v-if="!isLogin">
         <input type="password" placeholder="password" v-model="password" v-if="!isLogin">
         <span id="err">{{err}}</span>
         <h2 @click="sendLogin" v-if="!isLogin">Login</h2>
+        <h2 @click="goToProfile" v-if="isLogin" id="profile">Profile</h2>
         <h2 @click="sendLogout" v-if="isLogin" id="logout">Logout</h2>
       </div>
     </div>
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'Navbar',
   data () {
     return {
       user: '',
-      password: ''
+      password: '',
+      baseUrl: 'http://localhost:3000'
     }
   },
   methods: {
@@ -33,6 +36,24 @@ export default {
     sendLogout () {
       console.log('hehehe')
       this.$store.dispatch('sendLogout')
+    },
+
+    goToHome () {
+      axios({
+        method: 'GET',
+        url: `${this.baseUrl}/tweets`
+      })
+        .then(response => {
+          this.$store.dispatch('getTweet', response.data.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      this.$router.push('/')
+    },
+
+    goToProfile () {
+      this.$store.dispatch('getTweet', this.user.tweets)
     }
   },
 
@@ -42,6 +63,9 @@ export default {
     },
     isLogin () {
       return this.$store.state.isLogin
+    },
+    userData () {
+      return this.$store.state.user
     }
   }
 }
@@ -85,6 +109,14 @@ span {
 
 #logout {
   margin-top: 30px;
+  margin-left: 50px;
+}
+
+#profile {
   margin-left: 500px;
+}
+
+h1 {
+  cursor: pointer;
 }
 </style>

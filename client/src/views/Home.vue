@@ -1,14 +1,15 @@
 <template>
   <div class="home">
     <div class="containerHomeItem">
-      <div>
-        <user-card></user-card>
+      <div v-if="isLogin">
+        <user-card ></user-card>
+        <search-tweet></search-tweet>
       </div>
       <div class="middle">
         <create-tweet v-if="isLogin"></create-tweet>
         <show-tweet></show-tweet>
       </div>
-      <div>hahaha</div>
+      <div v-if="isLogin">hahaha</div>
     </div>
   </div>
 </template>
@@ -18,17 +19,19 @@
 import CreateTweet from '@/components/CreateTweet.vue'
 import ShowTweet from '@/components/ShowTweet.vue'
 import UserCard from '@/components/UserCard.vue'
+import SearchTweet from '@/components/SearchTweet.vue'
 
 export default {
   name: 'home',
   components: {
     CreateTweet,
     ShowTweet,
-    UserCard
+    UserCard,
+    SearchTweet
   },
 
   created () {
-    this.$store.dispatch('getTweet')
+    // this.$store.dispatch('getTweet')
   },
 
   computed: {
